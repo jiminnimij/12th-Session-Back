@@ -13,3 +13,4 @@ class PostSerializer(serializers.ModelSerializer):
     body = models.TextField()
     language = serializers.ChoiceField(choices=LANGUAGE_CHOICES, default = 1)
     '''
+# 별건 아니고
