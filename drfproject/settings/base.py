@@ -13,22 +13,32 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from datetime import datetime, timedelta
 import os
-AUTH_USER_MODEL = 'api.User'
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import environ
 
+import pymysql
+pymysql.install_asMySQLdb()
+
+
+#AUTH_USER_MODEL = 'api.User'
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.comfkdkg/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1t6cx1o1*)3ql8h-7!u-s8ie_%3zwfisz@_(s=6m0l5=x=)^ng'
+#SECRET_KEY = 'django-insecure-1t6cx1o1*)3ql8h-7!u-s8ie_%3zwfisz@_(s=6m0l5=x=)^ng'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+SECRET_KEY = env('DJANGO_SECRET_KEY')
+DEBUG = env('DEBUG')
 
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
 
 # Application definition
 
@@ -122,13 +132,13 @@ WSGI_APPLICATION = 'drfproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+SITE_ID = 1
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
